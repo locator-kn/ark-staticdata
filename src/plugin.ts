@@ -6,12 +6,17 @@ export interface IRegister {
 export default
 class StaticData {
     db:any;
+    boom:any;
+    joi:any;
 
     constructor() {
         this.register.attributes = {
             name: 'ark-staticdata',
             version: '0.1.0'
         };
+
+        this.joi = require('joi');
+        this.boom = require('boom');
     }
 
     register:IRegister = (server, options, next) => {
@@ -38,7 +43,7 @@ class StaticData {
 
                 },
                 description: 'Get all moods',
-                tags: ['api', 'trip']
+                tags: ['api', 'staticdata']
             }
         });
 
@@ -51,7 +56,7 @@ class StaticData {
 
                 },
                 description: 'Create new mood',
-                tags: ['api', 'trip']
+                tags: ['api', 'staticdata']
             }
         });
 
