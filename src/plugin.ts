@@ -70,6 +70,25 @@ class StaticData {
             }
         });
 
+        // get all accommodations
+        server.route({
+            method: 'GET',
+            path: '/data/acc',
+            config: {
+                handler: (request, reply) => {
+                    this.db.getAccommodations((err, data) => {
+                        if (err) {
+                            return reply(this.boom.wrap(err, 400));
+                        }
+                        reply(data);
+                    });
+                },
+                description: 'Get all accommodations',
+                tags: ['api', 'staticdata']
+            }
+        });
+
+
         // create new mood
         server.route({
             method: 'POST',
