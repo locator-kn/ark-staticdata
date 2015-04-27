@@ -110,8 +110,8 @@ class StaticData {
                         icon: this.joi.string(),
                         image: this.joi.string(),
                         description: this.joi.string(),
-                        excludes: this.joi.isArray(),
-                        type: this.joi.string().requred().valid('mood')
+                        excludes: this.joi.array(),
+                        type: this.joi.string().required().valid('mood')
                     })
                         .required()
                         .description('Mood object')
@@ -138,7 +138,7 @@ class StaticData {
                     payload: this.joi.object().keys({
                         name: this.joi.string().required(),
                         plz: this.joi.string(),
-                        type: this.joi.string().requred().valid('city')
+                        type: this.joi.string().required().valid('city')
                     })
                         .required()
                         .description('city')
@@ -164,7 +164,7 @@ class StaticData {
                     validate: {
                         payload: this.joi.object().keys({
                             name: this.joi.string().required(),
-                            type: this.joi.string().requred().valid('acc')
+                            type: this.joi.string().required().valid('acc')
                         })
                             .required()
                             .description('city')
