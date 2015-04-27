@@ -160,7 +160,15 @@ class StaticData {
                         });
                     },
                     description: 'Create new accommodation',
-                    tags: ['api', 'staticdata']
+                    tags: ['api', 'staticdata'],
+                    validate: {
+                        payload: this.joi.object().keys({
+                            name: this.joi.string().required(),
+                            type: this.joi.string().requred().valid('acc')
+                        })
+                            .required()
+                            .description('city')
+                    }
                 }
             }
         )
