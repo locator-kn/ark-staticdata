@@ -111,7 +111,7 @@ class StaticData {
                         image: this.joi.string(),
                         description: this.joi.string(),
                         excludes: this.joi.isArray(),
-                        type: this.joi.string().requred().valid('user')
+                        type: this.joi.string().requred().valid('mood')
                     })
                         .required()
                         .description('Mood object')
@@ -133,7 +133,16 @@ class StaticData {
                     });
                 },
                 description: 'Create new city',
-                tags: ['api', 'staticdata']
+                tags: ['api', 'staticdata'],
+                validate: {
+                    payload: this.joi.object().keys({
+                        name: this.joi.string().required(),
+                        plz: this.joi.string(),
+                        type: this.joi.string().requred().valid('city')
+                    })
+                        .required()
+                        .description('city')
+                }
             }
         });
 
