@@ -52,6 +52,24 @@ class StaticData {
             }
         });
 
+        // get all moods
+        server.route({
+            method: 'GET',
+            path: '/data/cities',
+            config: {
+                handler: (request, reply) => {
+                    this.db.getCities((err, data) => {
+                        if (err) {
+                            return reply(this.boom.wrap(err, 400));
+                        }
+                        reply(data);
+                    });
+                },
+                description: 'Get all cities',
+                tags: ['api', 'staticdata']
+            }
+        });
+
         // create new mood
         server.route({
             method: 'POST',
