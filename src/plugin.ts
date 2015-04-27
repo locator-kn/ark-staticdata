@@ -103,7 +103,19 @@ class StaticData {
                     });
                 },
                 description: 'Create new mood',
-                tags: ['api', 'staticdata']
+                tags: ['api', 'staticdata'],
+                validate: {
+                    payload: this.joi.object().keys({
+                        title: this.joi.string().required(),
+                        icon: this.joi.string(),
+                        image: this.joi.string(),
+                        description: this.joi.string(),
+                        excludes: this.joi.isArray(),
+                        type: this.joi.string().requred().valid('user')
+                    })
+                        .required()
+                        .description('Mood object')
+                }
             }
         });
 
@@ -127,21 +139,23 @@ class StaticData {
 
         // create new city
         server.route({
-            method: 'POST',
-            path: '/data/acc',
-            config: {
-                handler: (request, reply) => {
-                    this.db.createAccommodation(request.payload, (err, data) => {
-                        if (err) {
-                            return reply(this.boom.wrap(err, 400));
-                        }
-                        reply(data);
-                    });
-                },
-                description: 'Create new accommodation',
-                tags: ['api', 'staticdata']
+                method: 'POST',
+                path: '/data/acc',
+                config: {
+                    handler: (request, reply) => {
+                        this.db.createAccommodation(request.payload, (err, data) => {
+                            if (err) {
+                                return reply(this.boom.wrap(err, 400));
+                            }
+                            reply(data);
+                        });
+                    },
+                    description: 'Create new accommodation',
+                    tags: ['api', 'staticdata']
+                }
             }
-        });
+        )
+        ;
 
         return 'register';
     }
