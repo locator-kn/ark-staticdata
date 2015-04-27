@@ -20,6 +20,33 @@ class StaticData {
 
     private _register(server, options) {
         // Register
+
+        // get all moods
+        server.route({
+            method: 'GET',
+            path: '/data/moods',
+            config: {
+                handler: (request, reply) => {
+
+                },
+                description: 'Get all moods',
+                tags: ['api', 'trip']
+            }
+        });
+
+        // create new mood
+        server.route({
+            method: 'POST',
+            path: '/data/moods',
+            config: {
+                handler: (request, reply) => {
+
+                },
+                description: 'Create new mood',
+                tags: ['api', 'trip']
+            }
+        });
+
         return 'register';
     }
 
