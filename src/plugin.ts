@@ -125,6 +125,24 @@ class StaticData {
             }
         });
 
+        // create new city
+        server.route({
+            method: 'POST',
+            path: '/data/acc',
+            config: {
+                handler: (request, reply) => {
+                    this.db.createAccommodation(request.payload, (err, data) => {
+                        if (err) {
+                            return reply(this.boom.wrap(err, 400));
+                        }
+                        reply(data);
+                    });
+                },
+                description: 'Create new accommodation',
+                tags: ['api', 'staticdata']
+            }
+        });
+
         return 'register';
     }
 
