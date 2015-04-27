@@ -5,6 +5,8 @@ export interface IRegister {
 
 export default
 class StaticData {
+    db:any;
+
     constructor() {
         this.register.attributes = {
             name: 'ark-staticdata',
@@ -14,6 +16,12 @@ class StaticData {
 
     register:IRegister = (server, options, next) => {
         server.bind(this);
+
+        server.dependency('ark-database', (server, next) => {
+            this.db = server.plugins['ark-database'];
+            next();
+        });
+
         this._register(server, options);
         next();
     };
