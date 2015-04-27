@@ -40,7 +40,12 @@ class StaticData {
             path: '/data/moods',
             config: {
                 handler: (request, reply) => {
-
+                    this.db.getMoods((err, data) => {
+                        if (err) {
+                            return reply(this.boom.wrap(err, 400));
+                        }
+                        reply(data);
+                    });
                 },
                 description: 'Get all moods',
                 tags: ['api', 'staticdata']
