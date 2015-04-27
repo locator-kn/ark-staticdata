@@ -95,7 +95,12 @@ class StaticData {
             path: '/data/moods',
             config: {
                 handler: (request, reply) => {
-
+                    this.db.createMood(request.payload, (err, data) => {
+                        if (err) {
+                            return reply(this.boom.wrap(err, 400));
+                        }
+                        reply(data);
+                    });
                 },
                 description: 'Create new mood',
                 tags: ['api', 'staticdata']
