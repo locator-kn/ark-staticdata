@@ -107,6 +107,24 @@ class StaticData {
             }
         });
 
+        // create new city
+        server.route({
+            method: 'POST',
+            path: '/data/city',
+            config: {
+                handler: (request, reply) => {
+                    this.db.createCity(request.payload, (err, data) => {
+                        if (err) {
+                            return reply(this.boom.wrap(err, 400));
+                        }
+                        reply(data);
+                    });
+                },
+                description: 'Create new city',
+                tags: ['api', 'staticdata']
+            }
+        });
+
         return 'register';
     }
 
