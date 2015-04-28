@@ -108,7 +108,7 @@ class StaticData {
                     payload: this.joi.object().keys({
                         title: this.joi.string().required(),
                         icon: this.joi.string(),
-                        query_name: this.joi.string(),
+                        query_name: this.joi.string().require(),
                         image: this.joi.string(),
                         description: this.joi.string(),
                         excludes: this.joi.array(),
@@ -165,7 +165,7 @@ class StaticData {
                     validate: {
                         payload: this.joi.object().keys({
                             name: this.joi.string().required(),
-                            query_name: this.joi.string(),
+                            query_name: this.joi.string().require(),
                             type: this.joi.string().required().valid('accommodation')
                         })
                             .required()
