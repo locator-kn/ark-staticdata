@@ -73,7 +73,7 @@ class StaticData {
         // get all accommodations
         server.route({
             method: 'GET',
-            path: '/data/acc',
+            path: '/data/accommodations',
             config: {
                 handler: (request, reply) => {
                     this.db.getAccommodations((err, data) => {
@@ -122,7 +122,7 @@ class StaticData {
         // create new city
         server.route({
             method: 'POST',
-            path: '/data/city',
+            path: '/data/cities',
             config: {
                 handler: (request, reply) => {
                     this.db.createCity(request.payload, (err, data) => {
@@ -149,7 +149,7 @@ class StaticData {
         // create new city
         server.route({
                 method: 'POST',
-                path: '/data/acc',
+                path: '/data/accommodations',
                 config: {
                     handler: (request, reply) => {
                         this.db.createAccommodation(request.payload, (err, data) => {
