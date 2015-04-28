@@ -164,7 +164,7 @@ class StaticData {
                     validate: {
                         payload: this.joi.object().keys({
                             name: this.joi.string().required(),
-                            type: this.joi.string().required().valid('acc')
+                            type: this.joi.string().required().valid('accommodation')
                         })
                             .required()
                             .description('city')
