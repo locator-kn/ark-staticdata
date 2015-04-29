@@ -71,7 +71,7 @@ class StaticData {
         // get all accommodations
         server.route({
             method: 'GET',
-            path: '/data/acc',
+            path: '/data/accommodations',
             config: {
                 handler: (request, reply) => {
                     this.db.getAccommodations((err, data) => {
@@ -106,6 +106,7 @@ class StaticData {
                     payload: this.joi.object().keys({
                         title: this.joi.string().required(),
                         icon: this.joi.string(),
+                        query_name: this.joi.string().required(),
                         image: this.joi.string(),
                         description: this.joi.string(),
                         excludes: this.joi.array(),
@@ -120,7 +121,7 @@ class StaticData {
         // create new city
         server.route({
             method: 'POST',
-            path: '/data/city',
+            path: '/data/cities',
             config: {
                 handler: (request, reply) => {
                     this.db.createCity(request.payload, (err, data) => {
@@ -147,7 +148,7 @@ class StaticData {
         // create new city
         server.route({
                 method: 'POST',
-                path: '/data/acc',
+                path: '/data/accommodations',
                 config: {
                     handler: (request, reply) => {
                         this.db.createAccommodation(request.payload, (err, data) => {
@@ -162,7 +163,8 @@ class StaticData {
                     validate: {
                         payload: this.joi.object().keys({
                             name: this.joi.string().required(),
-                            type: this.joi.string().required().valid('acc')
+                            query_name: this.joi.string().required(),
+                            type: this.joi.string().required().valid('accommodation')
                         })
                             .required()
                             .description('city')
