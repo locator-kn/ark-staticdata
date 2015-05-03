@@ -39,6 +39,7 @@ class StaticData {
             method: 'GET',
             path: '/data/moods',
             config: {
+                auth: false,
                 handler: (request, reply) => {
                     this.db.getMoods((err, data) => {
                         if (err) {
@@ -57,6 +58,7 @@ class StaticData {
             method: 'GET',
             path: '/data/cities',
             config: {
+                auth: false,
                 handler: (request, reply) => {
                     this.db.getCities((err, data) => {
                         if (err) {
@@ -75,6 +77,7 @@ class StaticData {
             method: 'GET',
             path: '/data/accommodations',
             config: {
+                auth: false,
                 handler: (request, reply) => {
                     this.db.getAccommodations((err, data) => {
                         if (err) {
