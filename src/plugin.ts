@@ -32,8 +32,6 @@ class StaticData {
     };
 
     private _register(server, options) {
-        // Register
-
         // get all moods
         server.route({
             method: 'GET',
@@ -180,11 +178,5 @@ class StaticData {
         ;
 
         return 'register';
-    }
-
-    errorInit(error) {
-        if (error) {
-            console.log('Error: Failed to load plugin (StaticData):', error);
-        }
     }
 }
