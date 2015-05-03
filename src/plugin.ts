@@ -150,32 +150,30 @@ class StaticData {
 
         // create new city
         server.route({
-                method: 'POST',
-                path: '/data/accommodations',
-                config: {
-                    handler: (request, reply) => {
-                        this.db.createAccommodation(request.payload, (err, data) => {
-                            if (err) {
-                                return reply(this.boom.wrap(err, 400));
-                            }
-                            reply(data);
-                        });
-                    },
-                    description: 'Create new accommodation',
-                    tags: ['api', 'staticdata'],
-                    validate: {
-                        payload: this.joi.object().keys({
-                            name: this.joi.string().required(),
-                            query_name: this.joi.string().required(),
-                            type: this.joi.string().required().valid('accommodation')
-                        })
-                            .required()
-                            .description('city')
-                    }
+            method: 'POST',
+            path: '/data/accommodations',
+            config: {
+                handler: (request, reply) => {
+                    this.db.createAccommodation(request.payload, (err, data) => {
+                        if (err) {
+                            return reply(this.boom.wrap(err, 400));
+                        }
+                        reply(data);
+                    });
+                },
+                description: 'Create new accommodation',
+                tags: ['api', 'staticdata'],
+                validate: {
+                    payload: this.joi.object().keys({
+                        name: this.joi.string().required(),
+                        query_name: this.joi.string().required(),
+                        type: this.joi.string().required().valid('accommodation')
+                    })
+                        .required()
+                        .description('city')
                 }
             }
-        )
-        ;
+        });
 
         return 'register';
     }
