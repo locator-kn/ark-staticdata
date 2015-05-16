@@ -50,7 +50,7 @@ class StaticData {
             }
         });
 
-        // get all moods
+        // get all cities
         server.route({
             method: 'GET',
             path: '/data/cities',
@@ -68,6 +68,27 @@ class StaticData {
                 tags: ['api', 'staticdata']
             }
         });
+
+        // get all cities
+        server.route({
+            method: 'GET',
+            // TODO: Adjust name of route
+            path: '/data/cities/trips',
+            config: {
+                auth: false,
+                handler: (request, reply) => {
+                    this.db.getCitiesWithTrips((err, data) => {
+                        if (err) {
+                            return reply(this.boom.wrap(err, 400));
+                        }
+                        reply(data);
+                    });
+                },
+                description: 'Get only cities in trips',
+                tags: ['api', 'staticdata']
+            }
+        });
+
 
         // get all accommodations
         server.route({
