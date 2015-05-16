@@ -11,8 +11,7 @@ class StaticData {
 
     constructor() {
         this.register.attributes = {
-            name: 'ark-staticdata',
-            version: '0.1.0'
+            pkg: require('./../../package.json')
         };
 
         this.joi = require('joi');
