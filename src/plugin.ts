@@ -72,7 +72,6 @@ class StaticData {
         // get all cities
         server.route({
             method: 'GET',
-            // TODO: Adjust name of route
             path: '/data/cities/trips',
             config: {
                 auth: false,
