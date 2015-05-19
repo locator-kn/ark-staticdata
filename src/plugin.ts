@@ -57,25 +57,6 @@ class StaticData {
             config: {
                 auth: false,
                 handler: (request, reply) => {
-                    this.db.getCities((err, data) => {
-                        if (err) {
-                            return reply(this.boom.wrap(err, 400));
-                        }
-                        reply(data);
-                    });
-                },
-                description: 'Get all cities',
-                tags: ['api', 'staticdata']
-            }
-        });
-
-        // get all cities
-        server.route({
-            method: 'GET',
-            path: '/data/cities/trips',
-            config: {
-                auth: false,
-                handler: (request, reply) => {
                     this.db.getCitiesWithTrips((err, data) => {
                         if (err) {
                             return reply(this.boom.wrap(err, 400));
