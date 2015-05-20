@@ -167,7 +167,7 @@ class StaticData {
                     payload: this.joi.object().keys({
                         name: this.joi.string().required(),
                         query_name: this.joi.string().required(),
-                        type: this.joi.string().required().valid('accommodation')
+                        type: this.joi.string().required().valid('accommodation-equipment')
                     })
                         .required()
                         .description('city')
