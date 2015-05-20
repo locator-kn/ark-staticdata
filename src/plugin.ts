@@ -124,33 +124,6 @@ class StaticData {
         // create new city
         server.route({
             method: 'POST',
-            path: '/data/cities',
-            config: {
-                handler: (request, reply) => {
-                    this.db.createCity(request.payload, (err, data) => {
-                        if (err) {
-                            return reply(this.boom.wrap(err, 400));
-                        }
-                        reply(data);
-                    });
-                },
-                description: 'Create new city',
-                tags: ['api', 'staticdata'],
-                validate: {
-                    payload: this.joi.object().keys({
-                        name: this.joi.string().required(),
-                        plz: this.joi.string(),
-                        type: this.joi.string().required().valid('city')
-                    })
-                        .required()
-                        .description('city')
-                }
-            }
-        });
-
-        // create new city
-        server.route({
-            method: 'POST',
             path: '/data/accommodations/equipment',
             config: {
                 handler: (request, reply) => {
