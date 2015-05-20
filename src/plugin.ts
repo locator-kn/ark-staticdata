@@ -77,7 +77,7 @@ class StaticData {
             config: {
                 auth: false,
                 handler: (request, reply) => {
-                    this.db.getAccommodations((err, data) => {
+                    this.db.getAccommodationsEquipment((err, data) => {
                         if (err) {
                             return reply(this.boom.wrap(err, 400));
                         }
@@ -127,7 +127,7 @@ class StaticData {
             path: '/data/accommodations/equipment',
             config: {
                 handler: (request, reply) => {
-                    this.db.createAccommodation(request.payload, (err, data) => {
+                    this.db.createAccommodationEquipment(request.payload, (err, data) => {
                         if (err) {
                             return reply(this.boom.wrap(err, 400));
                         }
@@ -143,7 +143,7 @@ class StaticData {
                         type: this.joi.string().required().valid('accommodation-equipment')
                     })
                         .required()
-                        .description('city')
+                        .description('equipment')
                 }
             }
         });
