@@ -121,7 +121,7 @@ class StaticData {
             }
         });
 
-        // create new city
+        // create new equipment for accommodation
         server.route({
             method: 'POST',
             path: '/data/accommodations/equipment',
