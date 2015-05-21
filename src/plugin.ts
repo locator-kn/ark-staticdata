@@ -73,11 +73,11 @@ class StaticData {
         // get all accommodations
         server.route({
             method: 'GET',
-            path: '/data/accommodations',
+            path: '/data/accommodations/equipment',
             config: {
                 auth: false,
                 handler: (request, reply) => {
-                    this.db.getAccommodations((err, data) => {
+                    this.db.getAccommodationsEquipment((err, data) => {
                         if (err) {
                             return reply(this.boom.wrap(err, 400));
                         }
@@ -121,40 +121,13 @@ class StaticData {
             }
         });
 
-        // create new city
+        // create new equipment for accommodation
         server.route({
             method: 'POST',
-            path: '/data/cities',
+            path: '/data/accommodations/equipment',
             config: {
                 handler: (request, reply) => {
-                    this.db.createCity(request.payload, (err, data) => {
-                        if (err) {
-                            return reply(this.boom.wrap(err, 400));
-                        }
-                        reply(data);
-                    });
-                },
-                description: 'Create new city',
-                tags: ['api', 'staticdata'],
-                validate: {
-                    payload: this.joi.object().keys({
-                        name: this.joi.string().required(),
-                        plz: this.joi.string(),
-                        type: this.joi.string().required().valid('city')
-                    })
-                        .required()
-                        .description('city')
-                }
-            }
-        });
-
-        // create new city
-        server.route({
-            method: 'POST',
-            path: '/data/accommodations',
-            config: {
-                handler: (request, reply) => {
-                    this.db.createAccommodation(request.payload, (err, data) => {
+                    this.db.createAccommodationEquipment(request.payload, (err, data) => {
                         if (err) {
                             return reply(this.boom.wrap(err, 400));
                         }
@@ -167,10 +140,9 @@ class StaticData {
                     payload: this.joi.object().keys({
                         name: this.joi.string().required(),
                         query_name: this.joi.string().required(),
-                        type: this.joi.string().required().valid('accommodation')
-                    })
-                        .required()
-                        .description('city')
+                        type: this.joi.string().required().valid('accommodation-equipment')
+                    }).required()
+                        .description('equipment')
                 }
             }
         });
