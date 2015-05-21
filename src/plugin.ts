@@ -114,9 +114,7 @@ class StaticData {
                         description: this.joi.string(),
                         excludes: this.joi.array(),
                         type: this.joi.string().required().valid('mood')
-                    })
-                        .required()
-                        .description('Mood object')
+                    }).required().description('Mood object')
                 }
             }
         });
@@ -141,8 +139,7 @@ class StaticData {
                         name: this.joi.string().required(),
                         query_name: this.joi.string().required(),
                         type: this.joi.string().required().valid('accommodation-equipment')
-                    }).required()
-                        .description('equipment')
+                    }).required().description('equipment')
                 }
             }
         });
