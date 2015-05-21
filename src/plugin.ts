@@ -141,8 +141,7 @@ class StaticData {
                         name: this.joi.string().required(),
                         query_name: this.joi.string().required(),
                         type: this.joi.string().required().valid('accommodation-equipment')
-                    })
-                        .required()
+                    }).required()
                         .description('equipment')
                 }
             }
