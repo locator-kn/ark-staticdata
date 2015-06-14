@@ -30,6 +30,15 @@ class StaticData {
         next();
     };
 
+    /**
+     * Method for creating all needed static data into the database
+     * @param database
+     * @param callback
+     */
+    public getSetupData() {
+        return(require('./../../staticData.json'));
+    }
+
     private _register(server, options) {
         // get all moods
         server.route({
