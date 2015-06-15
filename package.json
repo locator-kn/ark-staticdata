@@ -1,6 +1,6 @@
 {
   "name": "ark-staticdata",
-  "version": "4.0.1",
+  "version": "5.0.0",
   "description": "Superpower",
   "main": "index.js",
   "scripts": {
