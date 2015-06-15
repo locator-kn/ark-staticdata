@@ -30,6 +30,15 @@ class StaticData {
         next();
     };
 
+    /**
+     * Method for creating all needed static data into the database
+     * @param database
+     * @param callback
+     */
+    public getSetupData() {
+        return(require('./../../staticData.json'));
+    }
+
     private _register(server, options) {
         // get all moods
         server.route({
@@ -38,12 +47,7 @@ class StaticData {
             config: {
                 auth: false,
                 handler: (request, reply) => {
-                    this.db.getMoods((err, data) => {
-                        if (err) {
-                            return reply(this.boom.wrap(err, 400));
-                        }
-                        reply(data);
-                    });
+                    reply(this.db.getMoods());
                 },
                 description: 'Get all moods',
                 tags: ['api', 'staticdata']
@@ -57,12 +61,7 @@ class StaticData {
             config: {
                 auth: false,
                 handler: (request, reply) => {
-                    this.db.getCitiesWithTrips((err, data) => {
-                        if (err) {
-                            return reply(this.boom.wrap(err, 400));
-                        }
-                        reply(data);
-                    });
+                    reply(this.db.getCitiesWithTrips());
                 },
                 description: 'Get only cities in trips',
                 tags: ['api', 'staticdata']
@@ -77,12 +76,7 @@ class StaticData {
             config: {
                 auth: false,
                 handler: (request, reply) => {
-                    this.db.getAccommodationsEquipment((err, data) => {
-                        if (err) {
-                            return reply(this.boom.wrap(err, 400));
-                        }
-                        reply(data);
-                    });
+                    reply(this.db.getAccommodationsEquipment());
                 },
                 description: 'Get all accommodations',
                 tags: ['api', 'staticdata']
@@ -98,7 +92,7 @@ class StaticData {
                 handler: (request, reply) => {
                     this.db.createMood(request.payload, (err, data) => {
                         if (err) {
-                            return reply(this.boom.wrap(err, 400));
+                            return reply(this.boom.badRequest(err));
                         }
                         reply(data);
                     });
@@ -138,7 +132,7 @@ class StaticData {
                     payload: this.joi.object().keys({
                         name: this.joi.string().required(),
                         query_name: this.joi.string().required(),
-                        type: this.joi.string().required().valid('accommodation-equipment')
+                        type: this.joi.string().required().valid('accommodation_equipment')
                     }).required().description('equipment')
                 }
             }
