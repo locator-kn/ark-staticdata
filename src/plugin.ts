@@ -36,7 +36,7 @@ class StaticData {
      * @param callback
      */
     public getSetupData() {
-        return(require('./../../staticData.json'));
+        return (require('./../../staticData.json'));
     }
 
     private _register(server, options) {
@@ -47,7 +47,9 @@ class StaticData {
             config: {
                 auth: false,
                 handler: (request, reply) => {
-                    reply(this.db.getMoods());
+                    return reply(this.boom.gone('No longer provided'));
+                    // TODO: delete route
+                    //reply(this.db.getMoods());
                 },
                 description: 'Get all moods',
                 tags: ['api', 'staticdata']
@@ -76,7 +78,9 @@ class StaticData {
             config: {
                 auth: false,
                 handler: (request, reply) => {
-                    reply(this.db.getAccommodationsEquipment());
+                    return reply(this.boom.gone('No longer provided'));
+                    // TODO: delete route
+                    //reply(this.db.getAccommodationsEquipment());
                 },
                 description: 'Get all accommodations',
                 tags: ['api', 'staticdata']
@@ -90,12 +94,13 @@ class StaticData {
             path: '/data/moods',
             config: {
                 handler: (request, reply) => {
-                    this.db.createMood(request.payload, (err, data) => {
-                        if (err) {
-                            return reply(this.boom.badRequest(err));
-                        }
-                        reply(data);
-                    });
+                    return reply(this.boom.gone('No longer provided'));
+                    //this.db.createMood(request.payload, (err, data) => {
+                    //    if (err) {
+                    //        return reply(this.boom.badRequest(err));
+                    //    }
+                    //    reply(data);
+                    //});
                 },
                 description: 'Create new mood',
                 tags: ['api', 'staticdata'],
@@ -119,12 +124,13 @@ class StaticData {
             path: '/data/accommodations/equipment',
             config: {
                 handler: (request, reply) => {
-                    this.db.createAccommodationEquipment(request.payload, (err, data) => {
-                        if (err) {
-                            return reply(this.boom.wrap(err, 400));
-                        }
-                        reply(data);
-                    });
+                    return reply(this.boom.gone('No longer provided'));
+                    //this.db.createAccommodationEquipment(request.payload, (err, data) => {
+                    //    if (err) {
+                    //        return reply(this.boom.wrap(err, 400));
+                    //    }
+                    //    reply(data);
+                    //});
                 },
                 description: 'Create new accommodation',
                 tags: ['api', 'staticdata'],
