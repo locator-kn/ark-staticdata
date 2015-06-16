@@ -47,7 +47,7 @@ class StaticData {
             config: {
                 auth: false,
                 handler: (request, reply) => {
-                    return reply(this.boom.gone('No longer provided'));
+                    return reply(this.boom.resourceGone('No longer provided'));
                     // TODO: delete route
                     //reply(this.db.getMoods());
                 },
@@ -78,7 +78,7 @@ class StaticData {
             config: {
                 auth: false,
                 handler: (request, reply) => {
-                    return reply(this.boom.gone('No longer provided'));
+                    return reply(this.boom.resourceGone('No longer provided'));
                     // TODO: delete route
                     //reply(this.db.getAccommodationsEquipment());
                 },
@@ -94,7 +94,7 @@ class StaticData {
             path: '/data/moods',
             config: {
                 handler: (request, reply) => {
-                    return reply(this.boom.gone('No longer provided'));
+                    return reply(this.boom.resourceGone('No longer provided'));
                     //this.db.createMood(request.payload, (err, data) => {
                     //    if (err) {
                     //        return reply(this.boom.badRequest(err));
@@ -124,7 +124,7 @@ class StaticData {
             path: '/data/accommodations/equipment',
             config: {
                 handler: (request, reply) => {
-                    return reply(this.boom.gone('No longer provided'));
+                    return reply(this.boom.resourceGone('No longer provided'));
                     //this.db.createAccommodationEquipment(request.payload, (err, data) => {
                     //    if (err) {
                     //        return reply(this.boom.wrap(err, 400));
