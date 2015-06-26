@@ -40,21 +40,7 @@ class StaticData {
     }
 
     private _register(server, options) {
-        // get all moods
-        server.route({
-            method: 'GET',
-            path: '/data/moods',
-            config: {
-                auth: false,
-                handler: (request, reply) => {
-                    return reply(this.boom.resourceGone('No longer provided'));
-                    // TODO: delete route
-                    //reply(this.db.getMoods());
-                },
-                description: 'Get all moods',
-                tags: ['api', 'staticdata']
-            }
-        });
+
 
         // get all cities
         server.route({
@@ -70,77 +56,48 @@ class StaticData {
             }
         });
 
-
-        // get all accommodations
+        // get all fixed cities
         server.route({
             method: 'GET',
-            path: '/data/accommodations/equipment',
+            path: '/data/fixCities',
             config: {
                 auth: false,
                 handler: (request, reply) => {
-                    return reply(this.boom.resourceGone('No longer provided'));
-                    // TODO: delete route
-                    //reply(this.db.getAccommodationsEquipment());
+
+                    var tuebingen = {
+                        id: '8887cfb6c5c06cb28a693abfa9482704e56102b0',
+                        place_id: 'ChIJgdDN7dT6mUcRjacz_s6uCKw',
+                        title: 'T�bingen'
+                    };
+
+                    var karlsruhe = {
+                        id: '96e29f500a912ff4d364d6386fbe450326eaabfd',
+                        place_id: 'ChIJCXjgokgGl0cRf-63THNV_LY',
+                        title: 'Karlsruhe'
+                    };
+
+                    var heidelberg = {
+                        id: '7726b02bed0cda057da30946c5e1c6b6497e8249',
+                        place_id: 'ChIJzdzMDgXBl0cR1zokRADq5u8',
+                        title: 'Heidelberg'
+                    };
+
+                    var freiburg = {
+                        id: '537f35d3af241ccc749a46f73626df1a27eba86e',
+                        title: 'Freiburg',
+                        place_id: 'ChIJZdYLViYbkUcRsFffpbdrHwQ'
+                    };
+
+                    var konstanz = {
+                        id: '58433437e7710a957cd798b0774a79385389035b',
+                        title: 'Konstanz',
+                        place_id: 'ChIJWx8MOBv2mkcR0JnfpbdrHwQ'
+                    };
+
+                    reply([konstanz, freiburg, karlsruhe, heidelberg, tuebingen]);
                 },
-                description: 'Get all accommodations',
+                description: 'Get only Freiburg, Konstanz, Tuebingen, Karlsruhe and Heidelberg',
                 tags: ['api', 'staticdata']
-            }
-        });
-
-
-        // create new mood
-        server.route({
-            method: 'POST',
-            path: '/data/moods',
-            config: {
-                handler: (request, reply) => {
-                    return reply(this.boom.resourceGone('No longer provided'));
-                    //this.db.createMood(request.payload, (err, data) => {
-                    //    if (err) {
-                    //        return reply(this.boom.badRequest(err));
-                    //    }
-                    //    reply(data);
-                    //});
-                },
-                description: 'Create new mood',
-                tags: ['api', 'staticdata'],
-                validate: {
-                    payload: this.joi.object().keys({
-                        title: this.joi.string().required(),
-                        icon: this.joi.string(),
-                        query_name: this.joi.string().required(),
-                        image: this.joi.string(),
-                        description: this.joi.string(),
-                        excludes: this.joi.array(),
-                        type: this.joi.string().required().valid('mood')
-                    }).required().description('Mood object')
-                }
-            }
-        });
-
-        // create new equipment for accommodation
-        server.route({
-            method: 'POST',
-            path: '/data/accommodations/equipment',
-            config: {
-                handler: (request, reply) => {
-                    return reply(this.boom.resourceGone('No longer provided'));
-                    //this.db.createAccommodationEquipment(request.payload, (err, data) => {
-                    //    if (err) {
-                    //        return reply(this.boom.wrap(err, 400));
-                    //    }
-                    //    reply(data);
-                    //});
-                },
-                description: 'Create new accommodation',
-                tags: ['api', 'staticdata'],
-                validate: {
-                    payload: this.joi.object().keys({
-                        name: this.joi.string().required(),
-                        query_name: this.joi.string().required(),
-                        type: this.joi.string().required().valid('accommodation_equipment')
-                    }).required().description('equipment')
-                }
             }
         });
 
