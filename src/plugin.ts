@@ -47,6 +47,32 @@ class StaticData {
             }
         });
 
+        server.route({
+            method: 'GET',
+            path: '/data/location/tags',
+            config: {
+                auth: false,
+                handler: (request, reply) => {
+                    reply(this.db.getAllTagsFromLocations());
+                },
+                description: 'Get all tags used in locations',
+                tags: ['api', 'staticdata', 'location', 'tags']
+            }
+        });
+
+        server.route({
+            method: 'GET',
+            path: '/data/location/defaultLocation',
+            config: {
+                auth: false,
+                handler: (request, reply) => {
+                    reply(this.db.getDefaultLocation());
+                },
+                description: 'Get THE default location (Strandbar Konstanz)',
+                tags: ['api', 'staticdata']
+            }
+        });
+
         // get all fixed cities
         server.route({
             method: 'GET',
