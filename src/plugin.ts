@@ -8,6 +8,7 @@ class StaticData {
     db:any;
     boom:any;
     joi:any;
+    imageUtil:any
 
     constructor() {
         this.register.attributes = {
@@ -16,6 +17,7 @@ class StaticData {
 
         this.joi = require('joi');
         this.boom = require('boom');
+        this.imageUtil = require('locator-image-utility')
     }
 
     register:IRegister = (server, options, next) => {
@@ -44,6 +46,46 @@ class StaticData {
                 },
                 description: 'Get only cities in trips',
                 tags: ['api', 'staticdata']
+            }
+        });
+
+        server.route({
+            method: 'GET',
+            path: '/data/location/defaultLocation',
+            config: {
+                auth: false,
+                handler: (request, reply) => {
+                    reply(this.db.getDefaultLocation());
+                },
+                description: 'Get THE default location (Strandbar Konstanz)',
+                tags: ['api', 'staticdata']
+            }
+        });
+
+        // generic route to get all pictures
+        server.route({
+            method: 'GET',
+            path: '/data/{documentId}/{name}.{ext}',
+            config: {
+                auth: false,
+                handler: this.getPicture,
+                description: 'Get the a picture of a documentd requested with documentID',
+                notes: 'every picture is gonna requested with this route',
+                tags: ['api', 'user'],
+                validate: {
+                    params: {
+                        documentId: this.joi.string()
+                            .required(),
+                        name: this.joi.string()
+                            .required(),
+                        ext: this.joi.string()
+                            .required().regex(this.imageUtil.regex.imageExtension)
+                    },
+                    query: this.joi.object().keys({
+                        size: this.joi.string().valid(['medium'])
+                    }).unknown()
+                }
+
             }
         });
 
@@ -93,5 +135,20 @@ class StaticData {
         });
 
         return 'register';
+
     }
+
+    getPicture = (request, reply) => {
+        var sizeQuery = request.query.size;
+        var documentId = request.params.documentId;
+
+        if (!sizeQuery) {
+          return  reply(this.db.getPicture(documentId, request.params.name + '.' + request.params.ext));
+        } else {
+           return reply(this.db.getPicture(documentId, sizeQuery));
+        }
+    }
+
 }
+
+
