@@ -62,7 +62,8 @@ class StaticData {
             }
         });
 
-        // generic route to get all pictures
+
+        // generic route to get all kinds of pictures
         server.route({
             method: 'GET',
             path: '/data/{documentId}/{name}.{ext}',
