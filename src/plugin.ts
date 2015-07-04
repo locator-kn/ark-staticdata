@@ -8,7 +8,8 @@ class StaticData {
     db:any;
     boom:any;
     joi:any;
-    imageUtil:any
+    imageUtil:any;
+    imageSize:any;
 
     constructor() {
         this.register.attributes = {
@@ -17,7 +18,8 @@ class StaticData {
 
         this.joi = require('joi');
         this.boom = require('boom');
-        this.imageUtil = require('locator-image-utility')
+        this.imageUtil = require('locator-image-utility').image;
+        this.imageSize = require('locator-image-utility').size;
     }
 
     register:IRegister = (server, options, next) => {
@@ -83,7 +85,12 @@ class StaticData {
                             .required().regex(this.imageUtil.regex.imageExtension)
                     },
                     query: this.joi.object().keys({
-                        size: this.joi.string().valid(['medium'])
+                        size: this.joi.string().valid([
+                            this.imageSize.mini.name,
+                            this.imageSize.midi.name,
+                            this.imageSize.maxi.name,
+                            this.imageSize.thumb.name
+                        ])
                     }).unknown()
                 }
 
@@ -144,9 +151,9 @@ class StaticData {
         var documentId = request.params.documentId;
 
         if (!sizeQuery) {
-          return  reply(this.db.getPicture(documentId, request.params.name + '.' + request.params.ext));
+            return reply(this.db.getPicture(documentId, request.params.name + '.' + request.params.ext));
         } else {
-           return reply(this.db.getPicture(documentId, sizeQuery));
+            return reply(this.db.getPicture(documentId, sizeQuery));
         }
     }
 
