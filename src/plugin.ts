@@ -9,6 +9,7 @@ class StaticData {
     boom:any;
     joi:any;
     imageUtil:any;
+    regex:any;
     imageSize:any;
 
     constructor() {
@@ -20,6 +21,7 @@ class StaticData {
         this.boom = require('boom');
         this.imageUtil = require('locator-image-utility').image;
         this.imageSize = require('locator-image-utility').size;
+        this.regex = require('locator-image-utility').regex
     }
 
     register:IRegister = (server, options, next) => {
@@ -82,7 +84,7 @@ class StaticData {
                         name: this.joi.string()
                             .required(),
                         ext: this.joi.string()
-                            .required().regex(this.imageUtil.regex.imageExtension)
+                            .required().regex(this.regex.imageExtension)
                     },
                     query: this.joi.object().keys({
                         size: this.joi.string().valid([
