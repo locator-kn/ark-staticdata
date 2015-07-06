@@ -92,7 +92,9 @@ class StaticData {
                             this.imageSize.mid.name,
                             this.imageSize.small.name,
                             this.imageSize.user.name,
-                            this.imageSize.userThumb.name
+                            this.imageSize.userThumb.name,
+                            this.imageSize.mobile.name,
+                            this.imageSize.mobileThumb.name
                         ])
                     }).unknown()
                 }
