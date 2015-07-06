@@ -138,7 +138,7 @@ class StaticData {
                         place_id: 'ChIJWx8MOBv2mkcR0JnfpbdrHwQ'
                     };
 
-                    reply([konstanz, freiburg, karlsruhe, heidelberg, tuebingen]);
+                    reply(konstanz);//, freiburg, karlsruhe, heidelberg, tuebingen]);
                 },
                 description: 'Get only Freiburg, Konstanz, Tuebingen, Karlsruhe and Heidelberg',
                 tags: ['api', 'staticdata']
