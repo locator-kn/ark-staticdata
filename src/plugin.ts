@@ -88,10 +88,11 @@ class StaticData {
                     },
                     query: this.joi.object().keys({
                         size: this.joi.string().valid([
-                            this.imageSize.mini.name,
-                            this.imageSize.midi.name,
-                            this.imageSize.maxi.name,
-                            this.imageSize.thumb.name
+                            this.imageSize.max.name,
+                            this.imageSize.mid.name,
+                            this.imageSize.small.name,
+                            this.imageSize.user.name,
+                            this.imageSize.userThumb.name
                         ])
                     }).unknown()
                 }
