@@ -31,7 +31,7 @@
   "dependencies": {
     "boom": "^2.7.1",
     "joi": "^6.4.1",
-    "locator-image-utility": "^2.1.0",
+    "locator-image-utility": "latest",
     "typescript": "^1.5.0-alpha"
   }
 }
