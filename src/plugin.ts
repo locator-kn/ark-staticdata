@@ -108,7 +108,8 @@ class StaticData {
             config: {
                 auth: false,
                 handler: (request, reply) => {
-                    reply(this.db.getAllTagsFromLocations());
+                    reply(this.boom.resourceGone());
+                    //reply(this.db.getAllTagsFromLocations());
                 },
                 description: 'Get all tags used in locations',
                 tags: ['api', 'staticdata', 'location', 'tags']
