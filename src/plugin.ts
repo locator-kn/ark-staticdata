@@ -8,6 +8,9 @@ class StaticData {
     db:any;
     boom:any;
     joi:any;
+    imageUtil:any;
+    regex:any;
+    imageSize:any;
 
     constructor() {
         this.register.attributes = {
@@ -16,6 +19,9 @@ class StaticData {
 
         this.joi = require('joi');
         this.boom = require('boom');
+        this.imageUtil = require('locator-image-utility').image;
+        this.imageSize = require('locator-image-utility').size;
+        this.regex = require('locator-image-utility').regex
     }
 
     register:IRegister = (server, options, next) => {
@@ -49,19 +55,6 @@ class StaticData {
 
         server.route({
             method: 'GET',
-            path: '/data/location/tags',
-            config: {
-                auth: false,
-                handler: (request, reply) => {
-                    reply(this.db.getAllTagsFromLocations());
-                },
-                description: 'Get all tags used in locations',
-                tags: ['api', 'staticdata', 'location', 'tags']
-            }
-        });
-
-        server.route({
-            method: 'GET',
             path: '/data/location/defaultLocation',
             config: {
                 auth: false,
@@ -70,6 +63,55 @@ class StaticData {
                 },
                 description: 'Get THE default location (Strandbar Konstanz)',
                 tags: ['api', 'staticdata']
+            }
+        });
+
+
+        // generic route to get all kinds of pictures
+        server.route({
+            method: 'GET',
+            path: '/data/{documentId}/{name}.{ext}',
+            config: {
+                auth: false,
+                handler: this.getPicture,
+                description: 'Get the a picture of a documentd requested with documentID',
+                notes: 'every picture is gonna requested with this route',
+                tags: ['api', 'user'],
+                validate: {
+                    params: {
+                        documentId: this.joi.string()
+                            .required(),
+                        name: this.joi.string()
+                            .required(),
+                        ext: this.joi.string()
+                            .required().regex(this.regex.imageExtension)
+                    },
+                    query: this.joi.object().keys({
+                        size: this.joi.string().valid([
+                            this.imageSize.max.name,
+                            this.imageSize.mid.name,
+                            this.imageSize.small.name,
+                            this.imageSize.user.name,
+                            this.imageSize.userThumb.name,
+                            this.imageSize.mobile.name,
+                            this.imageSize.mobileThumb.name
+                        ])
+                    }).unknown()
+                }
+
+            }
+        });
+
+        server.route({
+            method: 'GET',
+            path: '/data/location/tags',
+            config: {
+                auth: false,
+                handler: (request, reply) => {
+                    reply(this.db.getAllTagsFromLocations());
+                },
+                description: 'Get all tags used in locations',
+                tags: ['api', 'staticdata', 'location', 'tags']
             }
         });
 
@@ -84,7 +126,7 @@ class StaticData {
                     var tuebingen = {
                         id: '8887cfb6c5c06cb28a693abfa9482704e56102b0',
                         place_id: 'ChIJgdDN7dT6mUcRjacz_s6uCKw',
-                        title: 'T&uuml;bingen'
+                        title: 'Tübingen'
                     };
 
                     var karlsruhe = {
@@ -111,7 +153,7 @@ class StaticData {
                         place_id: 'ChIJWx8MOBv2mkcR0JnfpbdrHwQ'
                     };
 
-                    reply([konstanz, freiburg, karlsruhe, heidelberg, tuebingen]);
+                    reply([konstanz]);//, freiburg, karlsruhe, heidelberg, tuebingen]);
                 },
                 description: 'Get only Freiburg, Konstanz, Tuebingen, Karlsruhe and Heidelberg',
                 tags: ['api', 'staticdata']
@@ -120,4 +162,18 @@ class StaticData {
 
         return 'register';
     }
+
+    getPicture = (request, reply) => {
+        var sizeQuery = request.query.size;
+        var documentId = request.params.documentId;
+
+        if (!sizeQuery) {
+            return reply(this.db.getPicture(documentId, request.params.name + '.' + request.params.ext));
+        } else {
+            return reply(this.db.getPicture(documentId, sizeQuery));
+        }
+    }
+
 }
+
+
