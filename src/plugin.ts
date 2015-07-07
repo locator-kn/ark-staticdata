@@ -102,6 +102,20 @@ class StaticData {
             }
         });
 
+        server.route({
+            method: 'GET',
+            path: '/data/location/tags',
+            config: {
+                auth: false,
+                handler: (request, reply) => {
+                    reply(this.boom.resourceGone());
+                    //reply(this.db.getAllTagsFromLocations());
+                },
+                description: 'Get all tags used in locations',
+                tags: ['api', 'staticdata', 'location', 'tags']
+            }
+        });
+
         // get all fixed cities
         server.route({
             method: 'GET',
@@ -148,7 +162,6 @@ class StaticData {
         });
 
         return 'register';
-
     }
 
     getPicture = (request, reply) => {
