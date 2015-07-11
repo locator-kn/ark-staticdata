@@ -38,12 +38,103 @@ class StaticData {
             next();
         });
 
+        server.expose('uploadImage', this.uploadImage);
+
         this._register(server, options);
         initLogging(server);
         next();
     };
 
+    uploadImage = (request, type) => {
 
+        // extract needed data
+        var bareRequest = this.imageUtil.stripHapiRequestObject(request);
+
+        // create the image processor
+        var imageProcessor = this.imageUtil.processor(bareRequest.options);
+        if (imageProcessor.error) {
+            return Promise.reject(this.boom.badRequest(imageProcessor.error))
+        }
+
+        var pictureData:any = {};
+        pictureData.cropping = bareRequest.cropping;
+
+
+        if (type === 'location') {
+
+            var documentId = request.params.locationid;
+            this.hoek.merge(pictureData, imageProcessor.createFileInformation(request.payload.locationTitle, 'locations', documentId));
+            var array = [this.imageSize.mid.name, this.imageSize.mobile.name, this.imageSize.max.name, this.imageSize.small.name, this.imageSize.mobileThumb.name];
+            return this._uploadImage(imageProcessor, pictureData, array, documentId);
+
+        } else if (type === 'user') {
+
+            var documentId = request.auth.credentials._id;
+            this.hoek.merge(pictureData, imageProcessor.createFileInformation('profile', 'users', documentId));
+            var array = [this.imageSize.user.name, this.imageSize.userThumb.name];
+            return this._uploadImage(imageProcessor, pictureData, array, documentId);
+
+        } else if (type === 'location-mobile') {
+
+            var documentId = request.params.locationid;
+            this.hoek.merge(pictureData, imageProcessor.createFileInformation(request.payload.locationTitle, 'locations', documentId));
+            var array = [this.imageSize.mobile.name, this.imageSize.mid.name, this.imageSize.max.name, this.imageSize.small.name, this.imageSize.mobileThumb.name];
+            return this._uploadImage(imageProcessor, pictureData, array, documentId);
+
+        } else {
+            return Promise.reject(this.boom.badRequest('Type must be location, location-mobile or user'))
+        }
+    };
+
+    _uploadImage = (imageProcessor, imgdata, array, documentid) => {//} requestData, cropping, array) => {
+        return new Promise((resolve, reject) => {
+
+            var attachmentData = imgdata.attachmentData;
+            var cropping = imgdata.cropping;
+            var url = imgdata.url;
+            var id = documentid;
+
+            // create hashmap with streams
+            var streams:any = {};
+            array.forEach(sizeName => {
+                attachmentData.name = sizeName;
+                streams[sizeName] = {
+                    stream: imageProcessor.createCroppedStream(cropping, this.imageSize.all[sizeName]),
+                    attachmentData: this.hoek.clone(attachmentData)
+                }
+            });
+
+            var size = array.shift();
+            this.db.savePicture(id, streams[size].attachmentData, streams[size].stream)
+                .then(() => {
+                    return this.db.updateDocumentWithoutCheck(id, {picture: url});
+                }).then((value:any) => {
+                    value.imageLocation = url;
+                    return resolve(value);
+                }).catch(err => {
+                    return reject(err)
+                }).then(() => {
+                    // upload all other images
+                    return this._loopImageUpload(array, streams, id);
+                }).then(() => {
+                    log('all uploaded')
+                }).catch(err => logError(err));
+        })
+
+    };
+
+    private _loopImageUpload = (imageArray, pictureHashMap, id) => {
+        if (!imageArray.length) {
+            return Promise.resolve();
+        } else {
+            // remove first element
+            var currentSize = imageArray.shift();
+            return this.db.savePicture(id, pictureHashMap[currentSize].attachmentData, pictureHashMap[currentSize].stream)
+                .then(() => {
+                    return this._loopImageUpload(imageArray, pictureHashMap, id);
+                }).catch(err => Promise.reject(err))
+        }
+    };
 
     private _register(server, options) {
 
