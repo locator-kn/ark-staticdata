@@ -3,6 +3,10 @@ export interface IRegister {
     attributes?: any;
 }
 
+declare var Promise;
+
+import {initLogging, log, logError} from './util/logging'
+
 export default
 class StaticData {
     db:any;
@@ -11,6 +15,7 @@ class StaticData {
     imageUtil:any;
     regex:any;
     imageSize:any;
+    hoek:any;
 
     constructor() {
         this.register.attributes = {
@@ -21,7 +26,8 @@ class StaticData {
         this.boom = require('boom');
         this.imageUtil = require('locator-image-utility').image;
         this.imageSize = require('locator-image-utility').size;
-        this.regex = require('locator-image-utility').regex
+        this.regex = require('locator-image-utility').regex;
+        this.hoek = require('hoek');
     }
 
     register:IRegister = (server, options, next) => {
@@ -33,8 +39,11 @@ class StaticData {
         });
 
         this._register(server, options);
+        initLogging(server);
         next();
     };
+
+
 
     private _register(server, options) {
 
