@@ -20,5 +20,5 @@ export function logError(logging:string) {
         return;
     }
 
-    server.log(['locationpool', 'Error'], logging);
+    server.log(['staticdata', 'Error'], logging);
 }
