@@ -86,7 +86,7 @@ class StaticData {
         }
     };
 
-    _uploadImage = (imageProcessor, imgdata, array, documentid) => {//} requestData, cropping, array) => {
+    _uploadImage = (imageProcessor, imgdata, array, documentid) => {
         return new Promise((resolve, reject) => {
 
             var attachmentData = imgdata.attachmentData;
@@ -118,7 +118,11 @@ class StaticData {
                     return this._loopImageUpload(array, streams, id);
                 }).then(() => {
                     log('all uploaded')
-                }).catch(err => logError(err));
+                }).catch(err => {
+                    logError('unable to save picture, because of')
+                    logError(err);
+                    logError(err.message);
+                });
         })
 
     };
@@ -163,42 +167,6 @@ class StaticData {
                 },
                 description: 'Get THE default location (Strandbar Konstanz)',
                 tags: ['api', 'staticdata']
-            }
-        });
-
-
-        // generic route to get all kinds of pictures
-        server.route({
-            method: 'GET',
-            path: '/data/{documentId}/{name}.{ext}',
-            config: {
-                auth: false,
-                handler: this.getPicture,
-                description: 'Get the a picture of a documentd requested with documentID',
-                notes: 'every picture is gonna requested with this route',
-                tags: ['api', 'user'],
-                validate: {
-                    params: {
-                        documentId: this.joi.string()
-                            .required(),
-                        name: this.joi.string()
-                            .required(),
-                        ext: this.joi.string()
-                            .required().regex(this.regex.imageExtension)
-                    },
-                    query: this.joi.object().keys({
-                        size: this.joi.string().valid([
-                            this.imageSize.max.name,
-                            this.imageSize.mid.name,
-                            this.imageSize.small.name,
-                            this.imageSize.user.name,
-                            this.imageSize.userThumb.name,
-                            this.imageSize.mobile.name,
-                            this.imageSize.mobileThumb.name
-                        ])
-                    }).unknown()
-                }
-
             }
         });
 
@@ -263,18 +231,6 @@ class StaticData {
 
         return 'register';
     }
-
-    getPicture = (request, reply) => {
-        var sizeQuery = request.query.size;
-        var documentId = request.params.documentId;
-
-        if (!sizeQuery) {
-            return reply(this.db.getPicture(documentId, request.params.name + '.' + request.params.ext));
-        } else {
-            return reply(this.db.getPicture(documentId, sizeQuery));
-        }
-    }
-
 }
 
 
