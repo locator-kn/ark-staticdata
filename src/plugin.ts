@@ -91,7 +91,7 @@ class StaticData {
 
             var attachmentData = imgdata.attachmentData;
             var cropping = imgdata.cropping;
-            var url = imgdata.url;
+            var location = imgdata.location;
             var id = documentid;
 
             // create hashmap with streams
@@ -107,9 +107,9 @@ class StaticData {
             var size = array.shift();
             this.db.savePicture(id, streams[size].attachmentData, streams[size].stream)
                 .then(() => {
-                    return this.db.updateDocumentWithoutCheck(id, {picture: url});
+                    return this.db.updateDocumentWithoutCheck(id, location);
                 }).then((value:any) => {
-                    value.imageLocation = url;
+                    value.imageLocation = imgdata.url;
                     return resolve(value);
                 }).catch(err => {
                     return reject(err)
@@ -119,7 +119,7 @@ class StaticData {
                 }).then(() => {
                     log('all uploaded')
                 }).catch(err => {
-                    logError('unable to save picture, because of')
+                    logError('unable to save picture, because of');
                     logError(err);
                     logError(err.message);
                 });
