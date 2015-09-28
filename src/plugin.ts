@@ -157,6 +157,20 @@ class StaticData {
             }
         });
 
+        // get all cities
+        server.route({
+            method: 'GET',
+            path: '/data/locationCities',
+            config: {
+                auth: false,
+                handler: (request, reply) => {
+                    reply(this.db.getCitiesWithLocations());
+                },
+                description: 'Get only cities in locations',
+                tags: ['api', 'staticdata', 'locations']
+            }
+        });
+
         server.route({
             method: 'GET',
             path: '/data/location/defaultLocation',
@@ -195,7 +209,7 @@ class StaticData {
                     var tuebingen = {
                         id: '8887cfb6c5c06cb28a693abfa9482704e56102b0',
                         place_id: 'ChIJgdDN7dT6mUcRjacz_s6uCKw',
-                        title: 'Tübingen'
+                        title: 'Tï¿½bingen'
                     };
 
                     var karlsruhe = {
